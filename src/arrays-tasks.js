@@ -505,10 +505,10 @@ getHexRGBValues([0, 255, 16777215]);
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  return arr.sort((a, b) => b - a).slice(0, n);
 }
-
+getMaxItems([10, 2, 7, 5, 3, -5], 3);
 /**
  * Finds and returns an array containing only the common elements found in two arrays.
  *
@@ -521,10 +521,10 @@ function getMaxItems(/* arr, n */) {
  *    findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']) => [ 'b', 'c' ]
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
-function findCommonElements(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function findCommonElements(arr1, arr2) {
+  return arr1.filter((value) => arr2.includes(value));
 }
-
+findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']);
 /**
  * Finds the length of the longest increasing and uninterrupted subsequence of a given array of integers.
  *
@@ -536,10 +536,22 @@ function findCommonElements(/* arr1, arr2 */) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => longest is [3, 10] and [1, 20] => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => longest is [7, 40, 80] => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
-}
+function findLongestIncreasingSubsequence(nums) {
+  let seqLength = 0;
+  const seqAll = [];
+  nums.reduce((acc, curr) => {
+    if (acc < curr) {
+      seqLength += 1;
+      seqAll.push(seqLength + 1);
+    } else {
+      seqLength = 0;
+    }
+    return curr;
+  });
 
+  return Math.max(...seqAll);
+}
+findLongestIncreasingSubsequence([10, 22, 33, 77, 4, 13, 41, 60, 80]);
 /**
  * Propagates every item in sequence its position times
  * Returns an array that consists of: one first item, two second items, three third items etc.
@@ -555,9 +567,16 @@ function findLongestIncreasingSubsequence(/* nums */) {
  *  propagateItemsByPositionIndex([ 1,2,3,4,5 ]) => [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5 ]
  */
 function propagateItemsByPositionIndex(/* arr */) {
+  // if (!arr) return [];
+  // if (arr.length === 1) return arr;
+  // return arr.map((element, index) => {
+  //   index = index + 1;
+  //   if (element.index > arr(index))
+
+  // })
   throw new Error('Not implemented');
 }
-
+// propagateItemsByPositionIndex([1,2,3,4,5]);
 /**
  * Shifts an array by n positions. If n is negative, the array is shifted to the left;
  * if positive, it is shifted to the right.
@@ -571,10 +590,10 @@ function propagateItemsByPositionIndex(/* arr */) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  return arr.slice(-n).concat(arr.slice(0, -n));
 }
-
+shiftArray([10, 20, 30, 40, 50], 2);
 /**
  * Sorts digit names.
  *
@@ -588,10 +607,22 @@ function shiftArray(/* arr, n */) {
  *   sortDigitNamesByNumericOrder([ 'nine','eight','nine','eight' ]) => [ 'eight','eight','nine','nine']
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const numberEquivalent = {
+    zero: 0,
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+  };
+  return arr.sort((a, b) => numberEquivalent[a] - numberEquivalent[b]);
 }
-
+sortDigitNamesByNumericOrder(['one', 'one', 'one', 'zero']);
 /**
  * Swaps the head and tail of the specified array:
  * the head (first half) of array move to the end, the tail (last half) move to the start.
@@ -611,9 +642,18 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (!arr) return [];
+  if (arr.length === 1) return arr;
+
+  const head = arr.slice(0, arr.length / 2);
+  const tail = arr.slice(-head.length);
+  const middleEl = arr.length % 2 ? arr[Math.floor(arr.length / 2)] : null;
+  if (middleEl) tail.push(middleEl);
+
+  return [...tail, ...head];
 }
+swapHeadAndTail([1, 2]);
 
 module.exports = {
   getIntervalArray,
